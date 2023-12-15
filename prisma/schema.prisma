@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Anime {
+  animeId Int    @id @default(autoincrement())
+  title   String @db.VarChar(200)
+  content String @db.VarChar(200)
+
+  Kategoris AnimeKategori[]
+}
+
+model Kategori {
+  kategoriId   Int             @id @default(autoincrement())
+  namaKategori String          @db.VarChar(200)
+  Animes       AnimeKategori[]
+}
+
+model AnimeKategori {
+  animeKategoriId Int       @id @default(autoincrement())
+  animeId         Int
+  kategoriId      Int
+  anime           Anime?    @relation(fields: [animeId], references: [animeId])
+  kategori        Kategori? @relation(fields: [kategoriId], references: [kategoriId])
+
+  @@index([animeId, kategoriId])
+}
