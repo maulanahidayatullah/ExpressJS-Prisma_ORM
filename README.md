@@ -1,0 +1,3 @@
+# :v
+
+Mending Sequelize :v
